@@ -1,6 +1,7 @@
 package com.example.faturamentoanualmei;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Home");
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -99,6 +101,26 @@ public class MainActivity extends AppCompatActivity {
                 exibirSaldo(ano);
             }
         });
+        charterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intente = new Intent(getBaseContext(), MainActivity2.class);
+                startActivity(intente);
+            }
+        });
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        SharedPreferences sp = getSharedPreferences(MyDataFile, Context.MODE_PRIVATE);
+        String nomeFantasia = sp.getString("nomeFantasia", null);
+
+        if (nomeFantasia!=null){
+            setTitle(nomeFantasia);
+        }
+
+        int ano = numberPicker.getValue();
+        exibirSaldo(ano);
+    }
 }
